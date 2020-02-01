@@ -1,33 +1,34 @@
 $(document).ready(function(){
-    $("#currentDay").text(moment().format("MMM Do, YYYY"));
+    //moment().format("MMM Do YY"); 
+    $("#currentDay").text(moment().format("dddd, MMMM Do"));
 
     //Updates the app with data from the local storage
-    for (const i = 0; i <= 19; i++){
-        const storedItem = localStorage.getItem("hour-" +i);
+    for (let i = 0; i <= 19; i++){
+        let storedItem = localStorage.getItem("hour-" +i);
         $("#hour-" + i + "-text").val(storedItem);
     }
 
     //Update the background color of hour rows depending on time of day
-    const currentHour = moment()
+    let currentHour = moment()
         .format("LT")
         .split(":")
         .shift();
 
-    const amPm = moment()
+    let amPm = moment()
         .format("LT")
         .split(" ")
         .pop();
 
-    const isAM = (amPm == "AM") ? true:false;
+    let isAM = (amPm == "AM") ? true:false;
 
     if (isAM){
-        for (const i =3; i <= 8; i++){
+        for (let i =0; i <= 8; i++){
             const hourRow = $(".hour[data-index=" +i + "]");
             hourRow.next().addClass("future");
         }
 
-        for(const i = 0; i <= 2; i++){
-            const hourRow = $(".hour[data-index=" + i + "]");
+        for(let i = 0; i <= 2; i++){
+            let hourRow = $(".hour[data-index=" + i + "]");
             if (hourRow.attr("data-hour") == currentHour){
                 hourRow.next().addClass("present");
             } else if(
@@ -40,8 +41,8 @@ $(document).ready(function(){
                     }
                 }   
             } else{
-                for (const i = 0; i <= 2; i++){
-                    const hourRow = $(".hour[data-index=" + i +"]");
+                for (let i = 0; i <= 2; i++){
+                    let hourRow = $(".hour[data-index=" + i +"]");
                     hourRow.next().addClass("past");
                 }
             }
@@ -87,8 +88,8 @@ $(document).ready(function(){
                 .next()
                 .addClass("past");
 
-                for(const i = 4; i <= 8; i++){
-                    const hourRow = $(".hour[data-index=" + i + "]");
+                for(let i = 4; i <= 8; i++){
+                    let hourRow = $(".hour[data-index=" + i + "]");
 
                     if(hourRow.attr("data-hour") == currentHour){
                         hourRow.next().addClass("present");
@@ -103,30 +104,33 @@ $(document).ready(function(){
                 }
             }   
         }
-    }
 
-    //save the data in th field to local storage. delete localStorage key if the text field is empty
-    ,function saveText(event){
-        const target = event.target;
-        const keyName;
-        const textareaValue;
-        const rowElement;
 
-        if (target.tagName == "DIV"){
-            textareaValue = target.previousElementSibling.children[0].value;
-            rowElement = target.parentElement.getAttribute("data-index");
-            keyName = "hour-" + rowElement;
-        } else{
-            textareaValue = target.parentElement.previousElementSibling.children[0].value;
-            rowElement = target.parentElement.parentElement.getAttribute(
-                "dataindex"
-            );
-            keyName = "hour-" + rowElement;
+    //save the data in the field to local storage and deletes localStorage key if the text field is empty
+function saveText(event){
+            let target = event.target;
+            let keyName
+            let textareaValue
+             textareaValue;
+
+            if (target.tagName == "textarea"){
+                textareaValue = target.previousElementSibling.children[0].value;
+                rowElement = target.parentElement.getAttribute("data-index");
+                keyName = "hour-" + rowElement;
+            } else{
+                textareaValue = target.parentElement.previousElementSibling.children[0].value;
+                rowElement = target.parentElement.parentElement.getAttribute(
+                    "dataindex"
+                );
+                keyName = "hour-" + rowElement;
+            }
+            if (textareaValue !== ""){
+                localStorage.setItem(keyName, textareaValue);
+            } else{
+                localStorage.removeItem(keyName)
+            }
         }
-        if (textareaValue !== ""){
-            localStorage.setItem(keyName, textareaValue);
-        } else{
-            localStorage.removeItem(keyName)
-        }
-    }
-    ,$(".saveBtn").on("click", saveText));
+        $(".saveBtn").on("click", saveText); 
+
+    });
+//in function to get time, if it's past, it's a certain color, the present, it's a certain color, and if it's in the future, it's a certain color
