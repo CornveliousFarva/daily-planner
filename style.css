@@ -32,6 +32,9 @@ textarea{
 .hour{
     text-align: center;
     border-radius: 15px;
+    background-color: #ffffff;
+    color: #000000;
+    border-top: 1px dashed #000000;
 }
 
 .row{
@@ -40,15 +43,19 @@ textarea{
     border-top: 1px solid white;
 }
 
-.hour{
-    background-color: #ffffff;
-    color: #000000;
-    border-top: 1px dashed #000000;
-}
-
 .past{
     background-color: #d3d3d3;
     color: white;
+}
+
+.present{
+    background-color: green;
+    color: white;
+}
+
+.future{
+    background-color: red;
+    color: black;
 }
 
 .saveBtn{

@@ -130,7 +130,7 @@ function saveText(event){
                 localStorage.removeItem(keyName)
             }
         }
-        $(".saveBtn").on("click", saveText); 
+        $(". saveBtn").on("click", saveText); 
 
     });
-//in function to get time, if it's past, it's a certain color, the present, it's a certain color, and if it's in the future, it's a certain color
+
